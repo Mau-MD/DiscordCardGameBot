@@ -21,6 +21,11 @@ class Economy(commands.Cog):
 
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f"Espera {error.retry_after:.2f} segundos, mugre spammer 😡😡😡")
+
     @commands.command()
     async def min_money(self, val):
         Economy.minMoney = val
@@ -29,8 +34,10 @@ class Economy(commands.Cog):
     async def max_money(self, val):
         Economy.maxMoney = val
 
-    @commands.command()
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    @commands.command(pass_content=True)
     async def work(self, ctx):
+
         money = random.randint(Economy.minMoney, Economy.maxMoney)
         embed = discord.Embed(title="Ganaste ${}.00!".format(money), description="{} {}".format(ctx.author,
                                                                                       random.choice(Economy.moneyPhrases)))\
@@ -49,7 +56,60 @@ class Economy(commands.Cog):
         await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] + money,
                                       str(ctx.message.author.id))
 
-    @commands.command()
+    @commands.cooldown(1, 180, commands.BucketType.user)
+    @commands.command(pass_content=True)
+    async def rob(self, ctx, member: discord.Member):
+        success = random.randint(0, 1)
+        if success:
+            money = random.randint(0, 10000)
+            user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(member.id))
+
+            if not user:
+                await ctx.send(embed=discord.Embed(title="Ese we ni existe xd"))
+                return
+
+            user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
+
+            userMoney = user['money']
+
+            money = min(userMoney, money)
+
+            await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] - money,
+                                          str(member.id))
+
+            user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
+
+            await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] + money,
+                                          str(ctx.message.author.id))
+
+            await ctx.send(embed=discord.Embed(title=f"ATRACO REALIZADO 😳",
+                                         description=f"El {ctx.author} acaba de robarle a {member.display_name} una cantidad espantosa de `${money:,d}` 😱")
+                     .set_thumbnail(url=ctx.author.avatar_url))
+
+
+
+        else:
+            money = random.randint(5000,15000)
+            user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
+
+            if not user:
+                await ctx.send(embed=discord.Embed(title="Ni existes xd"))
+                return
+
+            user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
+
+            userMoney = user['money']
+
+            money = min(userMoney, money)
+
+            await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] - money,
+                                          str(ctx.message.author.id))
+
+            await ctx.send(embed=discord.Embed(title=f"BIEN MENSO JAJA 😳",
+                                         description=f"El {ctx.author} acaba de perder una cantidad espantosa de `${money:,d}` por baboso😱")
+                     .set_thumbnail(url=ctx.author.avatar_url))
+
+    @commands.command(pass_content=True)
     async def money(self, ctx):
 
         user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
@@ -64,6 +124,16 @@ class Economy(commands.Cog):
 
             await ctx.send(embed=embed)
 
+    @commands.command(pass_content=True)
+    async def give(self, ctx, member: discord.Member, *, money=0):
+        print("hola")
+        user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
+        print(user)
+        await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] + money,
+                                      str(member.id))
+        print(f"{user['money']} {money}")
+        await ctx.send(f"Se agregaron ${money:,d} peñacoins a la cuenta de {member.mention}")
+
     @commands.command()
     async def mleaderboard(self, ctx):
         top10 = await self.bot.pg_con.fetch("SELECT * FROM users ORDER BY money DESC LIMIT 5")
@@ -72,7 +142,7 @@ class Economy(commands.Cog):
         imgLink = ""
 
         for i in range(0, len(top10)):
-            embedText += str(top10[i]['user_name']) + " --------> " + f" {top10[i]['money']:,d}" + (len(top10) - i) * '🤑' + "\n"
+            embedText += str(top10[i]['user_name']) + " --------> " + f" ${top10[i]['money']:,d}" + (len(top10) - i) * '🤑' + "\n"
             if i == 0:
                 print(top10[i]['user_id'])
                 user = self.bot.get_user(int(top10[i]['user_id']))

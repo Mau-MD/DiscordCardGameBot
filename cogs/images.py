@@ -13,8 +13,8 @@ class Images(commands.Cog):
     isActive = False
     emptyArray = [0]*20
 
-    minTime = 1
-    maxTime = 60
+    minTime = 30
+    maxTime = 180
 
     def __init__(self, bot):
         self.bot = bot
@@ -90,7 +90,7 @@ class Images(commands.Cog):
                                  description="Un {} ha aparecido. Atrapalo con `_get`".format(name),
                                  color=0x00ff00).set_image(url=link)
         channel = self.bot.get_channel(Images.channelID)
-        Images.savedMessage = await channel.send(embed=embedVar)
+        Images.savedMessage = await channel.send(embed=embedVar, delete_after=30)
 
 
 def setup(bot):
