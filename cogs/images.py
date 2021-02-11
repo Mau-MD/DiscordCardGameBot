@@ -40,17 +40,21 @@ class Images(commands.Cog):
         Images.minTime = minn
         Images.maxTime = maxx
 
-
     @commands.command()
     async def leaderboard(self, ctx):
         top5 = await self.bot.pg_con.fetch("SELECT * FROM users ORDER BY card_count DESC LIMIT 5")
 
         embedText = ""
+        imgLink = ""
 
         for i in range(0, len(top5)):
             embedText += str(top5[i]['user_name']) + " --------> " + str(top5[i]['card_count']) + "\n"
+            if i == 0:
+                print(top5[i]['user_id'])
+                user = self.bot.get_user(int(top5[i]['user_id']))
+                imgLink = user.avatar_url
 
-        embed = discord.Embed(title="Leaderboard", description=embedText)
+        embed = discord.Embed(title="Card Leaderboard 🃏", description=embedText).set_thumbnail(url=imgLink)
         channel = self.bot.get_channel(Images.channelID)
         await channel.send(embed=embed)
 
