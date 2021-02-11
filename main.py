@@ -117,5 +117,5 @@ async def printCard(name, link):
 
 
 
-bot.loop.run_until_complete(create_db_pool())
+#bot.loop.run_until_complete(create_db_pool())
 bot.run(os.getenv('TOKEN'))
