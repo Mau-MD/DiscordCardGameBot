@@ -53,7 +53,7 @@ class Images(commands.Cog):
                 name, link, ID, rareza = card.getRandomCard()
             color = 0x7D3C98
 
-        elif 26 <= indiceRareza <= 40:
+        elif 16 <= indiceRareza <= 40:
             name, link, ID, rareza = card.getRandomCard()
             while rareza != 3:
                 name, link, ID, rareza = card.getRandomCard()
@@ -109,8 +109,8 @@ class Images(commands.Cog):
         i = 1
         for cardIn in cardsArray:
             if cardIn != 0:
-                rareza = self.getRareza(card.cards[i].rareza)
-                embedString += f"ID:`{i}` - `{card.cards[i].name}` - Cantidad: `{cardIn}` - Rareza `{rareza}`\n"
+                rareza = self.getRareza(card.cards[i-1].rareza)
+                embedString += f"ID:`{i}` - `{card.cards[i-1].name}` - Cantidad: `{cardIn}` - Rareza `{rareza}`\n"
             i += 1
 
         embed = discord.Embed(title="Cartas de {}".format(ctx.author), description=embedString).set_thumbnail(url=ctx.author.avatar_url)

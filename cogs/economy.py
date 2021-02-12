@@ -7,7 +7,6 @@ import TOKENS
 
 
 class Economy(commands.Cog):
-
     channelID = TOKENS.CHANNEL_ID
 
     minMoney = 0
@@ -15,7 +14,7 @@ class Economy(commands.Cog):
     moneyPhrases = ["gano dinero vendiendo animes piratas", "gano dinero trabajando duro",
                     "gano dinero como todo un tiburon"]
 
-    emptyArray = [0]*20
+    emptyArray = [0] * 20
 
     def __init__(self, bot):
 
@@ -40,7 +39,8 @@ class Economy(commands.Cog):
 
         money = random.randint(Economy.minMoney, Economy.maxMoney)
         embed = discord.Embed(title="Ganaste ${}.00!".format(money), description="{} {}".format(ctx.author,
-                                                                                      random.choice(Economy.moneyPhrases)))\
+                                                                                                random.choice(
+                                                                                                    Economy.moneyPhrases))) \
             .set_thumbnail(url=ctx.author.avatar_url)
 
         await ctx.send(embed=embed)
@@ -83,13 +83,13 @@ class Economy(commands.Cog):
                                           str(ctx.message.author.id))
 
             await ctx.send(embed=discord.Embed(title=f"ATRACO REALIZADO 😳",
-                                         description=f"El {ctx.author} acaba de robarle a {member.display_name} una cantidad espantosa de `${money:,d}` 😱")
-                     .set_thumbnail(url=ctx.author.avatar_url))
+                                               description=f"El {ctx.author} acaba de robarle a {member.display_name} una cantidad espantosa de `${money:,d}` 😱")
+                           .set_thumbnail(url=ctx.author.avatar_url))
 
 
 
         else:
-            money = random.randint(5000,15000)
+            money = random.randint(5000, 15000)
             user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
 
             if not user:
@@ -106,9 +106,10 @@ class Economy(commands.Cog):
                                           str(ctx.message.author.id))
 
             await ctx.send(embed=discord.Embed(title=f"BIEN MENSO JAJA 😳",
-                                         description=f"El {ctx.author} acaba de perder una cantidad espantosa de `${money:,d}` por baboso😱")
-                     .set_thumbnail(url=ctx.author.avatar_url))
+                                               description=f"El {ctx.author} acaba de perder una cantidad espantosa de `${money:,d}` por baboso😱")
+                           .set_thumbnail(url=ctx.author.avatar_url))
 
+    """
     @commands.command(pass_content=True)
     async def money(self, ctx):
 
@@ -123,6 +124,37 @@ class Economy(commands.Cog):
                 .set_thumbnail(url=ctx.author.avatar_url)
 
             await ctx.send(embed=embed)
+    """
+
+    @commands.command(pass_content=True)
+    async def money(self, ctx, member: discord.Member = None):
+
+        if member is not None:
+            user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(member.id))
+
+            if not user:
+                embed = discord.Embed(title="No existe ese we")
+                await ctx.send(embed=embed)
+            else:
+                user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
+                embed = discord.Embed(title="Dinero de {}".format(member.display_name),
+                                      description=f"${user['money']:,d} 🤑🤑🤑") \
+                    .set_thumbnail(url=member.avatar_url)
+                await ctx.send(embed=embed)
+        else:
+            user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
+
+            if not user:
+                embed = discord.Embed(title="No tienes nada... Mugre pobre")
+                await ctx.send(embed=embed)
+            else:
+                user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1",
+                                                      str(ctx.message.author.id))
+                embed = discord.Embed(title="Dinero de {}".format(ctx.author),
+                                      description=f"${user['money']:,d} 🤑🤑🤑") \
+                    .set_thumbnail(url=ctx.author.avatar_url)
+
+                await ctx.send(embed=embed)
 
     @commands.command(pass_content=True)
     async def give(self, ctx, member: discord.Member, *, money=0):
@@ -142,7 +174,8 @@ class Economy(commands.Cog):
         imgLink = ""
 
         for i in range(0, len(top10)):
-            embedText += str(top10[i]['user_name']) + " --------> " + f" ${top10[i]['money']:,d}" + (len(top10) - i) * '🤑' + "\n"
+            embedText += str(top10[i]['user_name']) + " --------> " + f" ${top10[i]['money']:,d}" + (
+                        len(top10) - i) * '🤑' + "\n"
             if i == 0:
                 print(top10[i]['user_id'])
                 user = self.bot.get_user(int(top10[i]['user_id']))
