@@ -11,6 +11,7 @@ class Images(commands.Cog):
     savedMessage = None
     channelID = TOKENS.CHANNEL_ID
     isActive = False
+    isActiveNow = False
     emptyArray = [0]*100
 
     minTime = 30
@@ -24,14 +25,13 @@ class Images(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        if Images.isActive:
+        if Images.isActive or message.author == self.bot.user:
             return
 
-        Images.isActive = True
         timer = random.randint(Images.minTime, Images.maxTime)
-
+        Images.isActive = True
         await asyncio.sleep(timer)
-
+        Images.isActiveNow = True
         # 1 a 5 es exepcional
         # 6 a 15 es leyenda
         # 26 a 40 es raro
@@ -109,6 +109,11 @@ class Images(commands.Cog):
             embedString = ""
             i = 1
             for cardIn in cardsArray:
+                if cardIn is None:
+                    await ctx.send("Carta corrupta encontrada, arreglando...")
+                    await self.bot.pg_con.fetch("UPDATE users VALUES cards[$1] = $2 WHERE user_id = $3 ", i-1, 0, str(ctx.message.author.id))
+                    await ctx.send("Arreglado. La cueNta de la carta tuvo que ser reseteada a `0`")
+                    continue
                 if cardIn != 0:
                     rareza = self.getRareza(card.cards[i - 1].rareza)
                     embedString += f"ID:`{i}` - `{card.cards[i - 1].name}` | `{cardIn}` | `{rareza}`\n"
@@ -152,12 +157,15 @@ class Images(commands.Cog):
     @commands.command()
     async def get(self, ctx):
 
-        if not Images.isActive:
+        if not Images.isActiveNow:
             channel = self.bot.get_channel(Images.channelID)
-            await channel.send(embed=discord.Embed(title="Pero si no hay nada chaval..."))
+            toDelete = await channel.send(embed=discord.Embed(title="Pero si no hay nada chaval..."))
+            await ctx.message.delete()
+            await asyncio.sleep(3)
+            await toDelete.delete()
         else:
             Images.isActive = False
-
+            Images.isActiveNow = False
             user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
 
             if not user:
@@ -178,6 +186,10 @@ class Images(commands.Cog):
                 description="Muy gay.",
                 color=0x00ff00)
             await Images.savedMessage.edit(embed=newEmbed)
+            await ctx.message.delete()
+            await asyncio.sleep(3)
+            await Images.savedMessage.delete()
+
 
     async def print_card(self, name, link, color):
 
