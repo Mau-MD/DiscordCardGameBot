@@ -100,23 +100,42 @@ class Images(commands.Cog):
         await channel.send(embed=embed)
 
     @commands.command()
-    async def cards(self, ctx):
+    async def cards(self, ctx, member: discord.Member = None):
 
-        user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
-        cardsArray = user['cards']
-        print(cardsArray)
-        embedString = ""
-        i = 1
-        for cardIn in cardsArray:
-            if cardIn != 0:
-                rareza = self.getRareza(card.cards[i-1].rareza)
-                embedString += f"ID:`{i}` - `{card.cards[i-1].name}` - Cantidad: `{cardIn}` - Rareza `{rareza}`\n"
-            i += 1
+        if member is not None:
+            user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
+            cardsArray = user['cards']
+            print(cardsArray)
+            embedString = ""
+            i = 1
+            for cardIn in cardsArray:
+                if cardIn != 0:
+                    rareza = self.getRareza(card.cards[i - 1].rareza)
+                    embedString += f"ID:`{i}` - `{card.cards[i - 1].name}` | `{cardIn}` | `{rareza}`\n"
+                i += 1
 
-        embed = discord.Embed(title="Cartas de {}".format(ctx.author), description=embedString).set_thumbnail(url=ctx.author.avatar_url)
+            embed = discord.Embed(title="Cartas de {}".format(member.display_name), description=embedString).set_thumbnail(
+                url=member.avatar_url)
 
-        channel = self.bot.get_channel(Images.channelID)
-        await channel.send(embed=embed)
+            channel = self.bot.get_channel(Images.channelID)
+            await channel.send(embed=embed)
+
+        else:
+            user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
+            cardsArray = user['cards']
+            print(cardsArray)
+            embedString = ""
+            i = 1
+            for cardIn in cardsArray:
+                if cardIn != 0:
+                    rareza = self.getRareza(card.cards[i-1].rareza)
+                    embedString += f"ID:`{i}` - `{card.cards[i-1].name}` | `{cardIn}` | `{rareza}`\n"
+                i += 1
+
+            embed = discord.Embed(title="Cartas de {}".format(ctx.author), description=embedString).set_thumbnail(url=ctx.author.avatar_url)
+
+            channel = self.bot.get_channel(Images.channelID)
+            await channel.send(embed=embed)
 
     def getRareza(self, index):
         if index == 5:
