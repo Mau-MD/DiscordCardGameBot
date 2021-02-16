@@ -178,6 +178,7 @@ class Images(commands.Cog):
                 ctx.message.author.id))
 
             print(Images.currentCard.id, user['cards'][Images.currentCard.id], ctx.message.author.id)
+            print(type(Images.currentCard.id), type(user['cards'][Images.currentCard.id] + 1), type(str(ctx.message.author.id)))
             await self.bot.pg_con.execute("UPDATE users SET cards[$1] = $2 WHERE user_id = $3", Images.currentCard.id,
                                           user['cards'][Images.currentCard.id] + 1, str(ctx.message.author.id)) # Updates the array
 
