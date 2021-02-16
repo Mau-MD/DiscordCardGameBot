@@ -74,7 +74,8 @@ class Images(commands.Cog):
         print(f"{ID} - {name}: {link} ")
 
         Images.currentCard = card.Card(name,link,ID,rareza)
-        await self.print_card(name, link, color)
+        rar = self.getRareza(rareza)
+        await self.print_card(name, link, color, rar)
 
     @commands.command()
     async def set_timer(self, ctx, minn, maxx):
@@ -116,7 +117,7 @@ class Images(commands.Cog):
                     continue
                 if cardIn != 0:
                     rareza = self.getRareza(card.cards[i - 1].rareza)
-                    embedString += f"ID:`{i}` - `{card.cards[i - 1].name}` | `{cardIn}` | `{rareza}`\n"
+                    embedString += f"ID:`{i}` - `{card.cards[i - 1].name}` | Count: `{cardIn}` | `{rareza}`\n"
                 i += 1
 
             embed = discord.Embed(title="Cartas de {}".format(member.display_name), description=embedString).set_thumbnail(
@@ -191,14 +192,41 @@ class Images(commands.Cog):
             await asyncio.sleep(3)
             await Images.savedMessage.delete()
 
+    @commands.command()
+    async def info(self, ctx, _card_id):
+        card_id = int(_card_id)
+        info_card = card.cards[card_id - 1]
 
-    async def print_card(self, name, link, color):
+        color = 1
+        if info_card.rareza == 5:
+            color = 0xF4D03F
+        elif info_card.rareza == 4:
+            color = 0x7D3C98
+        elif info_card.rareza == 3:
+            color = 0x3498DB
+        elif info_card.rareza == 2:
+            color = 0x229954
+        elif info_card.rareza == 1:
+            color = 0xF0F3F4
 
+        rar = self.getRareza(info_card.rareza)
+        descriptionString = "Rareza: `{}` ".format(rar)
+        embedVar = discord.Embed(title="{}".format(info_card.name),
+                                 description=descriptionString,
+                                 color=color).set_image(url=info_card.link)
+        channel = self.bot.get_channel(Images.channelID)
+        Images.savedMessage = await channel.send(embed=embedVar)
+
+
+    async def print_card(self, name, link, color, rareza):
+        descriptionString = "Un {} ha aparecido. Atrapalo con `_get`\n".format(name)
+        descriptionString += "Rareza: `{}` ".format(rareza)
         embedVar = discord.Embed(title="Aparecio un GAY",
-                                 description="Un {} ha aparecido. Atrapalo con `_get`".format(name),
+                                 description=descriptionString,
                                  color=color).set_image(url=link)
         channel = self.bot.get_channel(Images.channelID)
         Images.savedMessage = await channel.send(embed=embedVar)
+
 
 
 def setup(bot):

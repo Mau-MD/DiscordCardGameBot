@@ -84,12 +84,13 @@ class Trading(commands.Cog):
             return
         else:
             Trading.auction = True
-            await util.sendMsg(self.bot, "Inicio la apuesta !!! ")
+            await util.sendMsg(self.bot, "Inicio la subasta de `{}` por `${}.00`".format(card.cards[Trading.cardId].name, Trading.currentValue))
 
     @commands.command()
     async def bet(self, ctx, _money):
 
         if not Trading.auction:
+            await util.sendMsg(self.bot, "No hay ninguna subasta activa")
             return
 
         money = int(_money)
@@ -110,10 +111,10 @@ class Trading(commands.Cog):
         Trading.currentId = str(ctx.message.author.id)
 
         print(Trading.currentValue)
-        await util.sendMsg(self.bot, "Apostaste ${}.00".format(money))
+        await util.sendMsg(self.bot, "Apostaste `${}.00`".format(money))
 
     @commands.command()
-    async def finish(self, ctx):
+    async def end(self, ctx):
 
         if Trading.ownerId != str(ctx.message.author.id):
             return
@@ -131,8 +132,14 @@ class Trading(commands.Cog):
         await util.updateArray(self.bot, str(ctx.message.author.id), int(Trading.cardId), int(owner['cards'][Trading.cardId] - 1))
         await util.updateArray(self.bot, str(Trading.currentId), int(Trading.cardId), int(better['cards'][Trading.cardId] + 1))
 
-        await util.sendMsg(self.bot, "La compra fue hecha por ${}.00 🤑".format(Trading.currentValue))
+        await util.sendMsg(self.bot, "La compra fue hecha por `${}.00` 🤑".format(Trading.currentValue))
 
+    @commands.command()
+    async def cancel(self, ctx):
+        if Trading.ownerId != str(ctx.message.author.id):
+            return
+        Trading.auction = False
+        await util.sendMsg(self.bot, "Se cancela la subasta :(")
 
 
 def setup(bot):

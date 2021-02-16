@@ -195,7 +195,7 @@ cards = [
         3
     ),
     Card(
-        "Galletas Buki",
+        "Buki Galletas",
         "https://media.discordapp.net/attachments/807397347566551070/809895272024768512/IMG_20210210_225830361.jpg?width=363&height=484",
         32,
         1
