@@ -140,6 +140,76 @@ cards = [
         22,
         5
     ),
+    Card(
+        "Evan dab",
+        "https://cdn.discordapp.com/attachments/810942575154036776/810942819220062218/WIN_20201104_10_20_03_Pro.jpg",
+        23,
+        3
+    ),
+    Card(
+        "God",
+        "https://scontent.ftij2-1.fna.fbcdn.net/v/t1.15752-9/147494538_250123623397533_4694279337264144857_n.jpg?_nc_cat=101&ccb=3&_nc_sid=ae9488&_nc_eui2=AeGzFpm2Rc3kps4qQ0cmVZ-49autxOD_PiT1q63E4P8-JCSGxwcxi7zPoy7LF4984O9HVbTXwTk4C0EXIiXrWTdl&_nc_ohc=IDy-DXPZ5-UAX-vCCK3&_nc_ht=scontent.ftij2-1.fna&oh=b480ff52513015c407e4eb3b89d331e6&oe=604EEC65",
+        24,
+        5
+    ),
+    Card(
+        "Armando Fase 1",
+        "https://scontent.ftij2-1.fna.fbcdn.net/v/t1.15752-9/147494538_250123623397533_4694279337264144857_n.jpg?_nc_cat=101&ccb=3&_nc_sid=ae9488&_nc_eui2=AeGzFpm2Rc3kps4qQ0cmVZ-49autxOD_PiT1q63E4P8-JCSGxwcxi7zPoy7LF4984O9HVbTXwTk4C0EXIiXrWTdl&_nc_ohc=IDy-DXPZ5-UAX-vCCK3&_nc_ht=scontent.ftij2-1.fna&oh=b480ff52513015c407e4eb3b89d331e6&oe=604EEC65",
+        25,
+        2
+    ),
+    Card(
+        "Armando Fase 2",
+        "https://scontent.ftij2-1.fna.fbcdn.net/v/t1.15752-9/147338454_175999727244015_5145030684428162932_n.jpg?_nc_cat=104&ccb=3&_nc_sid=ae9488&_nc_eui2=AeFOvd4dgGTBCRbDQkMJDm1bkYbVRrBOgJqRhtVGsE6AmnQCajL7D-OZCjrM3LT9CR6Yau-QdaVhAD0Q4k-WGHDK&_nc_ohc=Lh2M3IgLWH0AX9uCcCT&_nc_ht=scontent.ftij2-1.fna&oh=7bd3d14e6b37074378640109368add39&oe=605215A8",
+        26,
+        2
+    ),
+    Card(
+        "Armando Cool",
+        "https://scontent.ftij2-1.fna.fbcdn.net/v/t1.15752-9/147813331_240811704309972_466427288274722927_n.jpg?_nc_cat=101&ccb=3&_nc_sid=ae9488&_nc_eui2=AeFb3neHjoL9IosLwLtFfW6zg4xPHbi5X1WDjE8duLlfVRW9MLySwY1QsD7tPYKmxjIquaeFjlxBXOWTdM6yMria&_nc_ohc=TG9tea-GOHwAX_K4bl2&_nc_ht=scontent.ftij2-1.fna&oh=9d2919ce48073b7bc6e15d731c54f962&oe=604F0F33",
+        27,
+        1
+    ),
+    Card(
+        "Armando Fase Maxima",
+        "https://scontent.ftij2-1.fna.fbcdn.net/v/t1.15752-9/147272616_891303798299611_5985287083702272256_n.jpg?_nc_cat=103&ccb=3&_nc_sid=ae9488&_nc_eui2=AeHtneHd4cbf_QJYl1u4Ziehm71copc2YOCbvVyilzZg4N21z2tfIC5YOFNFyAhnON-ge60Q8PM9zZD2SHvAlDvI&_nc_ohc=DR0Ml6FO4f8AX-VXlF8&_nc_ht=scontent.ftij2-1.fna&oh=fd61350e5fa53376f78636de8b2311cd&oe=60518859",
+        28,
+        4
+    ),
+    Card(
+        "I am Paris",
+        "https://media.discordapp.net/attachments/807408559235137536/809572589415563274/image.png?width=400&height=484",
+        29,
+        1
+    ),
+    Card(
+        "One Piece",
+        "https://media.discordapp.net/attachments/807414009338527774/808223769092948008/image0.jpg?width=660&height=484",
+        30,
+        1
+    ),
+    Card(
+        "Shot on Mi 9 Triple AI Camera",
+        "https://media.discordapp.net/attachments/807397347566551070/809895217674190878/IMG-20210210-WA0016.jpg?width=860&height=484",
+        31,
+        3
+    ),
+    Card(
+        "Galletas Buki",
+        "https://media.discordapp.net/attachments/807397347566551070/809895272024768512/IMG_20210210_225830361.jpg?width=363&height=484",
+        32,
+        1
+    ),
+    Card(
+        "Gay Temple",
+        "https://media.discordapp.net/attachments/807401302627582002/807413723488321536/gaytemple.png?width=484&height=484",
+        33,
+        5
+    )
+
+
+
+
 
 
   
