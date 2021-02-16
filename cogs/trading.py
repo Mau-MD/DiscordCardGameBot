@@ -60,7 +60,7 @@ class Trading(commands.Cog):
             await util.updateMoney(self.bot, str(ctx.message.author.id), user['money'] + precio)
             print("third")
 
-            await util.sendMsg(self.bot, "Genial! Vendiste la carta y ganaste {}".format(precio))
+            await util.sendMsg(self.bot, "Genial! Vendiste la carta y ganaste `${}.00`".format(precio))
 
     @commands.command()
     async def auction(self, ctx, _card_id, _initialValue):

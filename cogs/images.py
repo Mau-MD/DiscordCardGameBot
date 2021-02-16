@@ -17,9 +17,13 @@ class Images(commands.Cog):
     minTime = 30
     maxTime = 180
 
+    topCardId = ''
+    topMoneyId = ''
+
     currentCard = card.Card("","",-1,-1)
 
     def __init__(self, bot):
+        # Guardar en la base de datos el top de los dos
         self.bot = bot
 
     @commands.Cog.listener()
@@ -77,10 +81,67 @@ class Images(commands.Cog):
         rar = self.getRareza(rareza)
         await self.print_card(name, link, color, rar)
 
+
+        # Give roles
+        topUser = await self.bot.pg_con.fetch("SELECT * FROM users ORDER BY money DESC LIMIT 1")
+
+        member = None
+        for users in topUser:
+            member = users['user_id']
+            break
+
+        if member == Images.topMoneyId:
+            pass
+        else:
+
+            guild = self.bot.get_guild(TOKENS.SERVER_ID)  # Server ID
+            user = guild.get_member(int(member))
+
+
+            moneyRole = discord.utils.get(guild.roles, name="Millonario🤑")
+
+            print(f"Old: {Images.topMoneyId}")
+
+            if Images.topMoneyId != '':
+
+                oldUser = guild.get_member(int(Images.topMoneyId))
+                await oldUser.remove_roles(moneyRole)
+
+            await user.add_roles(moneyRole)
+
+            Images.topMoneyId = user.id
+
+        topUser = await self.bot.pg_con.fetch("SELECT * FROM users ORDER BY card_count DESC LIMIT 1")
+
+        member = None
+        for users in topUser:
+            member = users['user_id']
+            break
+
+        if member == Images.topCardId:
+            pass
+        else:
+
+            guild = self.bot.get_guild(TOKENS.SERVER_ID)  # Server ID
+            user = guild.get_member(int(member))
+
+            cardRole = discord.utils.get(guild.roles, name="Joker🃏")
+
+            if Images.topCardId != '':
+                oldUser = guild.get_member(int(Images.topCardId))
+                await oldUser.remove_roles(cardRole)
+
+            Images.topCardId = user.id
+            await user.add_roles(cardRole)
+
+
+
+    '''
     @commands.command()
     async def set_timer(self, ctx, minn, maxx):
         Images.minTime = minn
         Images.maxTime = maxx
+    '''
 
     @commands.command()
     async def leaderboard(self, ctx):

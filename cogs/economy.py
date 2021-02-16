@@ -25,6 +25,7 @@ class Economy(commands.Cog):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send(f"Espera {error.retry_after:.2f} segundos, mugre spammer 😡😡😡")
 
+    '''
     @commands.command()
     async def min_money(self, val):
         Economy.minMoney = val
@@ -32,6 +33,7 @@ class Economy(commands.Cog):
     @commands.command()
     async def max_money(self, val):
         Economy.maxMoney = val
+    '''
 
     @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.command(pass_content=True)
