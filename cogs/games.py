@@ -9,7 +9,7 @@ class Games(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def moneda(self, ctx, _money, _option):
+    async def coin(self, ctx, _money, _option):
         option = int(_option)
         money = int(_money)
 

@@ -205,7 +205,38 @@ cards = [
         "https://media.discordapp.net/attachments/807401302627582002/807413723488321536/gaytemple.png?width=484&height=484",
         33,
         5
+    ),
+    Card(
+        "Jose",
+        "https://media.discordapp.net/attachments/810942575154036776/811662867966722098/149449228_3628706870573292_5698232597926803450_n.png?width=284&height=505",
+        34,
+        3
+    ),
+    Card(
+        "Hans Guapeton",
+        "https://media.discordapp.net/attachments/809606599064420433/811672165095178250/image0.png?width=284&height=505",
+        35,
+        4
+    ),
+    Card(
+        "Hans dormido",
+        "https://media.discordapp.net/attachments/809606599064420433/811672536106532874/image0.jpg?width=379&height=505",
+        36,
+        4
+    ),
+    Card(
+        "Pabel calvo",
+        "https://media.discordapp.net/attachments/809606599064420433/811672709742067763/image0.jpg?width=478&height=505",
+        37,
+        5
+    ),
+    Card(
+        "Jose cocainomano   ",
+        "https://media.discordapp.net/attachments/809606599064420433/811673143953195078/image0.jpg",
+        38,
+        2
     )
+
 
 
 

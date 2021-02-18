@@ -244,14 +244,12 @@ class Images(commands.Cog):
             await self.bot.pg_con.execute("UPDATE users SET cards[$1] = $2 WHERE user_id = $3", Images.currentCard.id,
                                           user['cards'][Images.currentCard.id] + 1, str(ctx.message.author.id)) # Updates the array
 
-            newEmbed = discord.Embed(title="Nahhhh, el {} me atrapo.".format(
-                ctx.message.author),
+            newEmbed = discord.Embed(title="Nahhhh, el {} acaba de atrapar un `{}` de rareza `{}`.".format(
+                ctx.message.author, Images.currentCard.name, self.getRareza(Images.currentCard.rareza)),
                 description="Muy gay.",
                 color=0x00ff00)
             await Images.savedMessage.edit(embed=newEmbed)
             await ctx.message.delete()
-            await asyncio.sleep(3)
-            await Images.savedMessage.delete()
 
     @commands.command()
     async def info(self, ctx, _card_id):

@@ -63,7 +63,6 @@ class Economy(commands.Cog):
     async def rob(self, ctx, member: discord.Member):
         success = random.randint(0, 1)
         if success:
-            money = random.randint(0, 10000)
             user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE user_id = $1", str(member.id))
 
             if not user:
@@ -73,8 +72,8 @@ class Economy(commands.Cog):
             user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
 
             userMoney = user['money']
-
-            money = min(userMoney, money)
+            percentaje = random.randint(0, 500)
+            money = int(userMoney * float(percentaje/1000.0))
 
             await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] - money,
                                           str(member.id))
@@ -161,6 +160,21 @@ class Economy(commands.Cog):
     @commands.command(pass_content=True)
     async def give(self, ctx, member: discord.Member, *, money=0):
         print("hola")
+
+        owner = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
+        user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
+        print(user)
+        await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] + money,
+                                      str(member.id))
+        await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", owner['money'] - money,
+                                      str(ctx.message.author.id))
+        print(f"{user['money']} {money}")
+        await ctx.send(f"Le diste ${money:,d} peñacoins a {member.mention}")
+
+    @commands.command(pass_content=True)
+    async def add(self, ctx, member: discord.Member, *, money=0):
+        print("hola")
+
         user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(member.id))
         print(user)
         await self.bot.pg_con.execute("UPDATE users SET money = $1 WHERE user_id = $2", user['money'] + money,
