@@ -38,3 +38,7 @@ async def updateArray(bot, user_id, index, value):
     await bot.pg_con.execute("UPDATE users SET cards[$1] = $2 WHERE user_id = $3", index + 1, value, user_id)  # Updates the ar
     user = await bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", user_id)
     print(user['cards'][index])
+
+
+async def updatePower(bot, user_id, index, value):
+    await bot.pg_con.execute("UPDATE users SET power[$1] = $2 WHERE user_id = $3", index + 1, value + 1, user_id)  # Updates the ar

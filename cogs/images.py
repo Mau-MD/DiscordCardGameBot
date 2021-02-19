@@ -232,8 +232,8 @@ class Images(commands.Cog):
 
             if not user:
                 await self.bot.pg_con.execute(
-                    "INSERT INTO users (user_id, cards, card_count, money, user_name) VALUES ($1, $2, $3, $4, $5)",
-                    str(ctx.author.id), Images.emptyArray, 0, 0, str(ctx.message.author))
+                    "INSERT INTO users (user_id, cards, card_count, money, user_name, power) VALUES ($1, $2, $3, $4, $5, $6)",
+                    str(ctx.author.id), Images.emptyArray, 0, 0, str(ctx.message.author), Images.emptyArray)
 
             user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", str(ctx.message.author.id))
             await self.bot.pg_con.execute("UPDATE users SET card_count = $1 WHERE user_id = $2", user['card_count'] + 1, str(
