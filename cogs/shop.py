@@ -45,7 +45,7 @@ class Shop(commands.Cog):
         user = await util.getRow(self.bot, str(ctx.message.author.id))
 
         for i in range(0, contentSize):
-            if item == ShopItems.items[i].item: # En este index del array tengo que sumarle
+            if item == ShopItems.items[i].item.lower(): # En este index del array tengo que sumarle
                 if user['money'] < ShopItems.items[i].price:
                     await util.sendMsg(self.bot, "No tienes dinero, pobre 🎸")
                     return

@@ -74,6 +74,11 @@ class Images(commands.Cog):
             while rareza != 1:
                 name, link, ID, rareza = card.getRandomCard()
             color = 0xF0F3F4
+        elif 101 <= indiceRareza <= 102:
+            name, link, ID, rareza = card.getRandomCard()
+            while rareza != 6:
+                name, link, ID, rareza = card.getRandomCard()
+            color = 0x000000
 
         print(f"{ID} - {name}: {link} ")
 
@@ -205,7 +210,9 @@ class Images(commands.Cog):
             await channel.send(embed=embed)
 
     def getRareza(self, index):
-        if index == 5:
+        if index == 6:
+            return "ÃÒœŋ±ĶŅŰł"
+        elif index == 5:
             return "Excepcional"
         elif index == 4:
             return "Leyenda"
@@ -239,15 +246,22 @@ class Images(commands.Cog):
             await self.bot.pg_con.execute("UPDATE users SET card_count = $1 WHERE user_id = $2", user['card_count'] + 1, str(
                 ctx.message.author.id))
 
-            print(Images.currentCard.id, user['cards'][Images.currentCard.id], ctx.message.author.id)
+            print(f"Get: {Images.currentCard.id} {user['cards'][Images.currentCard.id]} {ctx.message.author.id}")
             print(type(Images.currentCard.id), type(user['cards'][Images.currentCard.id] + 1), type(str(ctx.message.author.id)))
             await self.bot.pg_con.execute("UPDATE users SET cards[$1] = $2 WHERE user_id = $3", Images.currentCard.id,
                                           user['cards'][Images.currentCard.id] + 1, str(ctx.message.author.id)) # Updates the array
 
+            if Images.currentCard.rareza == 6:
+                newEmbed = discord.Embed(title="ĜĹŘðőĪŔňÚ·Ūġūõĵ¥",
+                                         description="¢Æ¦ÝŵÿŶ¿ùŝÈıāųĽß±ď³Ňţ¾ĿÊ¹ĴÅŞĪűřĲóůÍĦ°ĚàÐ¸ÖŖĥńŲ×ĊČŊ").set_thumbnail(url="https://pm1.narvii.com/6783/3e8f52fbd11a05b249376f73307a9530eb7e2f9fv2_hq.jpg")
+                await Images.savedMessage.edit(embed=newEmbed)
+                await ctx.message.delete()
+                return
+
             newEmbed = discord.Embed(title="Nahhhh, el {} acaba de atrapar un `{}` de rareza `{}`.".format(
                 ctx.message.author, Images.currentCard.name, self.getRareza(Images.currentCard.rareza)),
                 description="Muy gay.",
-                color=0x00ff00)
+                color=0x00ff00).set_thumbnail(url=Images.currentCard.link)
             await Images.savedMessage.edit(embed=newEmbed)
             await ctx.message.delete()
 

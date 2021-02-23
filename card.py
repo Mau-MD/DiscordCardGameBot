@@ -11,10 +11,11 @@ class Card:
 
 cards = [
     Card(
-        "Naki Guitar",
-        "https://i.imgur.com/mebMzx5.jpg",
+        "ÃÒœŋ±ĶŅŰłģė×´ñµĭðĸŲŪªŒÞŀū½åŻĕÊŕēôź·ŎöùĒûüÓľĈÀőŢċĞď",
+        "https://i.pinimg.com/736x/d0/b2/00/d0b200be256c685f13e4caa83d365e9e.jpg",
         1,
-        5),
+        6
+    ),
     Card(
         "Guitar",
         "https://i.imgur.com/ypVfoUE.jpg",
@@ -235,7 +236,13 @@ cards = [
         "https://media.discordapp.net/attachments/809606599064420433/811673143953195078/image0.jpg",
         38,
         2
-    )
+    ),
+    Card(
+        "Naki Guitar",
+        "https://i.imgur.com/mebMzx5.jpg",
+        39,
+        5
+    ),
 
 
 

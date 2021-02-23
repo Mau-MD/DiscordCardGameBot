@@ -35,7 +35,9 @@ class Trading(commands.Cog):
 
             print(rareza)
             precio = 0
-            if rareza == 5:
+            if rareza == 6:
+                precio = -1000000
+            elif rareza == 5:
                 precio = 100000
             elif rareza == 4:
                 precio = 50000

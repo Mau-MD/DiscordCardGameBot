@@ -34,7 +34,7 @@ async def on_ready():
 @bot.command()
 async def version(ctx):
     global version
-    await ctx.send(f"Hola, soy PogU Bot 2 Deluxe, version 6.4")
+    await ctx.send(f"Hola, soy PogU Bot 2 Deluxe, version 6.4\nNuevo en 6.4: \n`ŇěŬőħĝŃĘÊä¹Ŏ¡űĥÿ¼ČşĄŪíĎëŉđśÉÍŐĀİÃ×ũµòūųĐťĊ±ŌĸŅìčŁŕ`")
 
 for cog in os.listdir(os.path.expanduser('~/Documents/Programming/DiscordCardGameBot/cogs')):
     if cog.endswith(".py"):
