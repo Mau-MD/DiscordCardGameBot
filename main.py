@@ -6,6 +6,7 @@ import asyncio
 import asyncpg
 import TOKENS
 import os
+import util
 
 description = '''hola'''
 intents = discord.Intents.default()
@@ -31,11 +32,13 @@ async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print('-------')
+    await util.sendEmbed(bot, embed=discord.Embed(title="1.0",description="Hola wapos, solo para decirles que ya no sé qué más agregarme, por lo tanto"
+                            " mañana será mi actualización final así grande:)\n\n Los quiere, pogUBot").set_thumbnail(url="https://www.dougsartgallery.com/images/ASCII-heart-tattoos-1.gif"))
 
 @bot.command()
 async def version(ctx):
     global version
-    await ctx.send(f"Hola, soy PogU Bot 2 Deluxe, version 6.5\nNuevo en 6.5: \n`Nuevas Cartas Agregadas`")
+    await ctx.send(f"Hola, soy PogU Bot 0.92 \nNuevo en 0.92: \n`Nuevas Cartas Agregadas`")
 
 for cog in os.listdir(os.path.expanduser('~/Documents/Programming/DiscordCardGameBot/cogs')):
     if cog.endswith(".py"):
