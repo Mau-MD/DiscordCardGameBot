@@ -229,9 +229,9 @@ class Images(commands.Cog):
         if not Images.isActiveNow:
             channel = self.bot.get_channel(Images.channelID)
             toDelete = await channel.send(embed=discord.Embed(title="Pero si no hay nada chaval..."))
-            await ctx.message.delete()
-            await asyncio.sleep(3)
-            await toDelete.delete()
+            # await ctx.message.delete()
+            # await asyncio.sleep(3)
+            # await toDelete.delete()
         else:
             Images.isActive = False
             Images.isActiveNow = False
@@ -251,19 +251,34 @@ class Images(commands.Cog):
             await self.bot.pg_con.execute("UPDATE users SET cards[$1] = $2 WHERE user_id = $3", Images.currentCard.id,
                                           user['cards'][Images.currentCard.id] + 1, str(ctx.message.author.id)) # Updates the array
 
+            color = 0x000000
+            if Images.currentCard.rareza == 5:
+                color = 0xF4D03F
+            elif Images.currentCard.rareza == 4:
+                color = 0x7D3C98
+            elif Images.currentCard.rareza == 3:
+                color = 0x3498DB
+            elif Images.currentCard.rareza == 2:
+                color = 0x229954
+            elif Images.currentCard.rareza == 1:
+                color = 0xF0F3F4
+            elif Images.currentCard.rareza == 6:
+                color = 0x000000
+
+
             if Images.currentCard.rareza == 6:
                 newEmbed = discord.Embed(title="ĜĹŘðőĪŔňÚ·Ūġūõĵ¥",
                                          description="¢Æ¦ÝŵÿŶ¿ùŝÈıāųĽß±ď³Ňţ¾ĿÊ¹ĴÅŞĪűřĲóůÍĦ°ĚàÐ¸ÖŖĥńŲ×ĊČŊ").set_thumbnail(url="https://pm1.narvii.com/6783/3e8f52fbd11a05b249376f73307a9530eb7e2f9fv2_hq.jpg")
                 await Images.savedMessage.edit(embed=newEmbed)
-                await ctx.message.delete()
+                # await ctx.message.delete()
                 return
 
             newEmbed = discord.Embed(title="Nahhhh, el {} acaba de atrapar un `{}` de rareza `{}`.".format(
                 ctx.message.author, Images.currentCard.name, self.getRareza(Images.currentCard.rareza)),
                 description="Muy gay.",
-                color=0x00ff00).set_thumbnail(url=Images.currentCard.link)
+                color=color).set_thumbnail(url=Images.currentCard.link)
             await Images.savedMessage.edit(embed=newEmbed)
-            await ctx.message.delete()
+            # await ctx.message.delete()
 
     @commands.command()
     async def info(self, ctx, _card_id):

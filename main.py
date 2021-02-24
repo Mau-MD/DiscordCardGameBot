@@ -12,7 +12,8 @@ intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='_',
                    description=description,
-                   intents=intents)
+                   intents=intents,
+                   case_insensitive=True)
                    
 isActive = False
 savedMessage = None
@@ -34,7 +35,7 @@ async def on_ready():
 @bot.command()
 async def version(ctx):
     global version
-    await ctx.send(f"Hola, soy PogU Bot 2 Deluxe, version 6.4\nNuevo en 6.4: \n`ŇěŬőħĝŃĘÊä¹Ŏ¡űĥÿ¼ČşĄŪíĎëŉđśÉÍŐĀİÃ×ũµòūųĐťĊ±ŌĸŅìčŁŕ`")
+    await ctx.send(f"Hola, soy PogU Bot 2 Deluxe, version 6.5\nNuevo en 6.5: \n`Nuevas Cartas Agregadas`")
 
 for cog in os.listdir(os.path.expanduser('~/Documents/Programming/DiscordCardGameBot/cogs')):
     if cog.endswith(".py"):
